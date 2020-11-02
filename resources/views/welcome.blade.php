@@ -11,7 +11,7 @@
     <body>
 
         <!-- React root DOM -->
-        <div id="example">
+        <div id="index">
         </div>
 
         <!-- React JS -->

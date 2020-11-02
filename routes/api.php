@@ -17,3 +17,16 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// get API here and receive it from react js
+Route::get('/test', function () {
+    return ['Edison Wu'];
+});
+
+// Zoom Accessing Models
+Route::get('/user', function() {
+    $user = Zoom::user()->find("btricp@gmail.com");
+
+    return $user->meetings;
+
+});
