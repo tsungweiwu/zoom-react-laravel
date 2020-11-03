@@ -115287,7 +115287,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _NewMeeting__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./NewMeeting */ "./resources/js/components/NewMeeting.js");
 /* harmony import */ var react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-bootstrap/Form */ "./node_modules/react-bootstrap/esm/Form.js");
 /* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/index.js");
-/* harmony import */ var react_bootstrap_Image__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-bootstrap/Image */ "./node_modules/react-bootstrap/esm/Image.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -115320,7 +115319,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-
 var Index = /*#__PURE__*/function (_Component) {
   _inherits(Index, _Component);
 
@@ -115335,10 +115333,13 @@ var Index = /*#__PURE__*/function (_Component) {
     _this.state = {
       meetings: {},
       passcode: "",
+      requester: "",
       login: false,
       userInput: '',
-      showWarning: false,
-      role: ''
+      errorName: false,
+      errorPass: false,
+      role: '',
+      success: null
     };
     return _this;
   } // fetch api
@@ -115348,6 +115349,17 @@ var Index = /*#__PURE__*/function (_Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
+
+      var data = sessionStorage.getItem('userData');
+      data = JSON.parse(data);
+
+      if (!(data == null)) {
+        this.setState({
+          login: data.login,
+          requester: data.requester,
+          role: data.role
+        });
+      }
 
       fetch('/api/user').then(function (response) {
         return response.json();
@@ -115364,30 +115376,49 @@ var Index = /*#__PURE__*/function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      var handleSubmit = function handleSubmit() {
-        console.log(_this3.state.userInput);
+      var handleChangeName = function handleChangeName(e) {
+        _this3.setState({
+          requester: e.target.value,
+          errorName: e.target.value == ""
+        });
+      };
 
-        if (_this3.state.userInput == "") {
-          _this3.setState({
-            showWarning: true,
-            showError: false
+      var handleChangePass = function handleChangePass(e) {
+        _this3.setState({
+          passcode: e.target.value,
+          errorPass: e.target.value == ""
+        });
+      };
+
+      var handleSubmit = function handleSubmit(e) {
+        e.preventDefault();
+        fetch('/api/login', {
+          method: 'POST',
+          credentials: 'same-origin',
+          body: JSON.stringify(_this3.state),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        }).then(function (response) {
+          response.json().then(function (resp) {
+            console.log(resp);
+            sessionStorage.setItem('userData', JSON.stringify(resp));
+
+            if (!resp.success) {
+              localStorage.setItem('success', 'false');
+            } else {
+              localStorage.clear();
+            }
+
+            window.location.reload(false);
           });
-        } else if (_this3.state.userInput == "7818632617") {
-          _this3.setState({
-            login: true,
-            role: 'user'
-          });
-        } else if (_this3.state.userInput == "steve1201") {
-          _this3.setState({
-            login: true,
-            role: 'admin'
-          });
-        } else {
-          _this3.setState({
-            showError: true,
-            showWarning: false
-          });
-        }
+        })["catch"]();
+      };
+
+      var handleLogOut = function handleLogOut() {
+        sessionStorage.clear();
+        window.location.reload();
       };
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Container__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -115396,47 +115427,66 @@ var Index = /*#__PURE__*/function (_Component) {
         style: {
           paddingBottom: '4%'
         }
-      }, "Zoom Meeting Dashboard"), this.state.showWarning ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Alert"], {
-        variant: "warning",
-        onClose: function onClose() {
-          _this3.setState({
-            showWarning: false
-          });
+      }, "Zoom Meeting Dashboard"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        style: {
+          paddingBottom: '4%'
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Group, {
+        as: react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Row,
+        controlId: "validationCustom03"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Label, {
+        column: true,
+        sm: 1
+      }, "First & Last Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Col"], {
+        sm: 5
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Control, {
+        required: true,
+        type: "text",
+        className: "mx-sm-3",
+        onChange: handleChangeName,
+        isInvalid: this.state.errorName
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Control.Feedback, {
+        type: "invalid"
+      }, "Please enter your first and last name"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Group, {
+        as: react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Row
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Label, {
+        column: true,
+        sm: 1
+      }, "Password"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Col"], {
+        sm: 5
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Control, {
+        required: true,
+        type: "password",
+        className: "mx-sm-3",
+        onChange: handleChangePass,
+        isInvalid: this.state.errorPass
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Control.Feedback, {
+        type: "invalid"
+      }, "Please enter your password"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Button"], {
+        variant: "outline-primary",
+        style: {
+          width: '50%',
+          marginTop: '5%'
         },
-        dismissible: true
-      }, "You need to fill the empty fields in order to continue submission.") : '', this.state.showError ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Alert"], {
+        onClick: this.state.requester == "" || this.state.passcode == "" ? null : handleSubmit,
+        type: "submit"
+      }, "Login")), localStorage.getItem('success') == 'false' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Alert"], {
         variant: "danger",
         onClose: function onClose() {
           _this3.setState({
             showError: false
           });
+
+          localStorage.setItem('success', 'true');
         },
         dismissible: true
-      }, "Wrong Password! Try again.") : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"], {
-        inline: true,
-        style: {
-          justifyContent: 'center',
-          alignItems: 'center',
-          display: 'flex'
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Group, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Label, {
-        htmlFor: "inputPassword6"
-      }, "Password"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Control, {
-        type: "password",
-        className: "mx-sm-3",
-        onChange: function onChange(input) {
-          _this3.setState({
-            userInput: input.target.value
-          });
-        }
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Button"], {
+      }, "Wrong Password! Try again.") : '') : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Button"], {
         variant: "outline-primary",
         style: {
-          width: '75%',
-          marginTop: '12%'
+          "float": 'right'
         },
-        onClick: handleSubmit
-      }, "Login")))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Tabs__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        onClick: handleLogOut
+      }, "Log Out"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Tabs__WEBPACK_IMPORTED_MODULE_3__["default"], {
         defaultActiveKey: "meetings"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Tab__WEBPACK_IMPORTED_MODULE_4__["default"], {
         eventKey: "meetings",
@@ -115447,7 +115497,7 @@ var Index = /*#__PURE__*/function (_Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Tab__WEBPACK_IMPORTED_MODULE_4__["default"], {
         eventKey: "new_meeting",
         title: "New Meeting"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NewMeeting__WEBPACK_IMPORTED_MODULE_6__["default"], null))));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NewMeeting__WEBPACK_IMPORTED_MODULE_6__["default"], null)))));
     }
   }]);
 
@@ -115556,7 +115606,7 @@ var Meetings = /*#__PURE__*/function (_Component) {
         }).then(function (response) {
           response.json().then(function (resp) {
             console.log(resp);
-            window.location.reload();
+            window.location.reload(false);
           });
         })["catch"]();
       };
@@ -115584,7 +115634,8 @@ var Meetings = /*#__PURE__*/function (_Component) {
         }, "Delete")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Subtitle, {
           className: "mb-2 text-muted"
         }, getDate(meeting.start_time)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Text, null, "Duration: ", meeting.duration / 60, " Hours"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Text, null, "Created By: ", meeting.requester), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Link, {
-          href: meeting.join_url
+          href: meeting.join_url,
+          target: "_blank"
         }, meeting.join_url))));
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, meetings);
@@ -115654,7 +115705,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 moment__WEBPACK_IMPORTED_MODULE_2___default.a.locale("en");
 react_widgets_moment__WEBPACK_IMPORTED_MODULE_3___default()();
-var today = moment__WEBPACK_IMPORTED_MODULE_2___default()();
 
 var NewMeeting = /*#__PURE__*/function (_Component) {
   _inherits(NewMeeting, _Component);
@@ -115685,13 +115735,18 @@ var NewMeeting = /*#__PURE__*/function (_Component) {
 
       var handleClose = function handleClose() {
         _this2.setState({
-          showSubmit: false
+          showSubmit: false,
+          requester: ''
         });
       };
 
       var handleOpen = function handleOpen() {
+        var data = sessionStorage.getItem('userData');
+        var parseData = JSON.parse(data);
+
         _this2.setState({
-          showSubmit: true
+          showSubmit: true,
+          requester: parseData.requester
         });
       };
 
@@ -115701,7 +115756,8 @@ var NewMeeting = /*#__PURE__*/function (_Component) {
         });
       };
 
-      var handleSubmit = function handleSubmit() {
+      var handleSubmit = function handleSubmit(e) {
+        e.preventDefault();
         fetch('/api/create', {
           method: 'POST',
           credentials: 'same-origin',
@@ -115713,7 +115769,7 @@ var NewMeeting = /*#__PURE__*/function (_Component) {
         }).then(function (response) {
           response.json().then(function (resp) {
             console.log(resp);
-            window.location.reload();
+            window.location.reload(false);
           });
         })["catch"]();
       };
@@ -115737,6 +115793,7 @@ var NewMeeting = /*#__PURE__*/function (_Component) {
       }, "Topic"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["Col"], {
         sm: 10
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Control, {
+        required: true,
         onChange: function onChange(input) {
           _this2.setState({
             topic: input.target.value
@@ -115774,28 +115831,14 @@ var NewMeeting = /*#__PURE__*/function (_Component) {
             duration: number
           });
         }
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Group, {
-        as: react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Row,
-        controlId: "formName"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Label, {
-        column: true,
-        sm: 2
-      }, "Full Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["Col"], {
-        sm: 10
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Control, {
-        onChange: function onChange(input) {
-          _this2.setState({
-            requester: input.target.value
-          });
-        },
-        placeholder: "Ex. John Doe"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["Button"], {
         variant: "outline-primary",
-        onClick: this.state.topic.trim() == "" || this.state.requester.trim() == "" || this.state.duration <= 0 ? handleWarning : handleOpen,
+        onClick: this.state.topic.trim() == "" || this.state.duration <= 0 ? handleWarning : handleOpen,
         style: {
           width: '25%',
           marginTop: '5%'
-        }
+        },
+        type: "button"
       }, "Schedule"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["Modal"], {
         show: this.state.showSubmit,
         onHide: handleClose
@@ -115806,7 +115849,8 @@ var NewMeeting = /*#__PURE__*/function (_Component) {
         onClick: handleClose
       }, "Cancel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_6__["Button"], {
         variant: "primary",
-        onClick: handleSubmit
+        onClick: handleSubmit,
+        type: "submit"
       }, "Create"))));
     }
   }]);

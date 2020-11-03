@@ -11,8 +11,6 @@ import "react-widgets/dist/css/react-widgets.css";
 Moment.locale("en");
 momentLocalizer();
 
-const today = Moment();
-
 class NewMeeting extends Component {
     constructor() {
         super();
@@ -29,13 +27,17 @@ class NewMeeting extends Component {
     render() {
         const handleClose = () => {
             this.setState({
-                showSubmit: false
+                showSubmit: false,
+                requester: ''
             })
         }
 
         const handleOpen = () => {
+            let data = sessionStorage.getItem('userData');
+            let parseData = JSON.parse(data);
             this.setState({
-                showSubmit: true
+                showSubmit: true,
+                requester: parseData.requester
             })
         }
 
@@ -45,7 +47,8 @@ class NewMeeting extends Component {
             })
         }
 
-        const handleSubmit = () => {
+        const handleSubmit = e => {
+            e.preventDefault();
             fetch('/api/create', {
                 method: 'POST',
                 credentials: 'same-origin',
@@ -60,7 +63,7 @@ class NewMeeting extends Component {
             .then(function(response) {
                 response.json().then(function(resp){
                     console.log(resp)
-                    window.location.reload()
+                    window.location.reload(false)
                 })
             })
                 .catch()
@@ -78,7 +81,7 @@ class NewMeeting extends Component {
                 <Form.Group as={Form.Row} controlId="formTopic">
                     <Form.Label column sm={2}>Topic</Form.Label>
                     <Col sm={10}>
-                        <Form.Control onChange={(input) =>
+                        <Form.Control required onChange={(input) =>
                         {
                             this.setState({
                                 topic: input.target.value
@@ -112,20 +115,9 @@ class NewMeeting extends Component {
                     </Col>
                 </Form.Group>
 
-                <Form.Group as={Form.Row} controlId="formName">
-                    <Form.Label column sm={2}>Full Name</Form.Label>
-                    <Col sm={10}>
-                        <Form.Control onChange={(input) =>
-                        {
-                            this.setState({
-                                requester: input.target.value
-                            })
-                        }
-                        } placeholder="Ex. John Doe"/>
-                    </Col>
-                </Form.Group>
-
-                <Button variant="outline-primary" onClick={((this.state.topic.trim() == "") || (this.state.requester.trim() == "") || (this.state.duration <= 0)) ? handleWarning : handleOpen} style={{width: '25%', marginTop: '5%'}}>Schedule</Button>
+                <Button variant="outline-primary" onClick={(
+                    (this.state.topic.trim() == "") || (this.state.duration <= 0)) ? handleWarning : handleOpen}
+                        style={{width: '25%', marginTop: '5%'}} type="button">Schedule</Button>
                 <Modal show={this.state.showSubmit} onHide={handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Confirm Create</Modal.Title>
@@ -135,7 +127,7 @@ class NewMeeting extends Component {
                         <Button variant="secondary" onClick={handleClose}>
                             Cancel
                         </Button>
-                        <Button variant="primary" onClick={handleSubmit}>
+                        <Button variant="primary" onClick={handleSubmit} type="submit">
                             Create
                         </Button>
                     </Modal.Footer>

@@ -23,6 +23,18 @@ Route::get('/test', function () {
     return ['Edison Wu'];
 });
 
+Route::post('login', function (Request $request) {
+    if ($request->passcode == '7818632617') {
+        return ['login'=>true, 'role'=>'user', 'requester'=>$request->requester, 'success'=>true];
+    }
+    else if ($request->passcode == '1234') {
+        return ['login'=>true, 'role'=>'admin', 'requester'=>$request->requester, 'success'=>true];
+    }
+    else {
+        return ['login'=>false, 'role'=>'', 'requester'=>'', 'success'=>false];
+    }
+});
+
 // Zoom Accessing Models
 Route::get('/user', function() {
     $user = Zoom::user()->find("btricp@gmail.com");

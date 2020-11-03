@@ -46,7 +46,7 @@ class Meetings extends Component {
                 .then(function(response) {
                     response.json().then(function(resp){
                         console.log(resp)
-                        window.location.reload()
+                        window.location.reload(false)
                     })
                 })
                 .catch()
@@ -84,7 +84,7 @@ class Meetings extends Component {
                             <Card.Text>
                                 Created By: {meeting.requester}
                             </Card.Text>
-                            <Card.Link href={meeting.join_url}>{meeting.join_url}</Card.Link>
+                            <Card.Link href={meeting.join_url} target="_blank">{meeting.join_url}</Card.Link>
                         </Card.Body>
                     </Card>
                 </div>
