@@ -10901,3 +10901,15 @@ a.text-dark:focus {
   }
 }
 
+.initial-content {
+  padding-top: 5%;
+}
+
+.meeting-card {
+  padding-top: 1%;
+}
+
+.buttonDelete {
+  float: right;
+}
+

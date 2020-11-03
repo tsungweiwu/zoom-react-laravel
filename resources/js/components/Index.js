@@ -11,16 +11,31 @@ class Index extends Component {
         super(props);
 
         this.state = {
+            meetings: {}
         }
     }
 
+    // fetch api
+    componentDidMount() {
+        fetch('/api/user')
+            .then(response => response.json())
+            .then(response => {
+                this.setState({
+                    meetings: response
+                })
+            })
+            .catch(function (err) {
+                return err;
+            })
+    }
+
+
     render() {
-        console.log(this.state)
         return (
             <Container className="App mt-5">
                 <Tabs defaultActiveKey="meetings">
                     <Tab eventKey="meetings" title="Meetings">
-                        <Meetings/>
+                        <Meetings meetings={this.state.meetings}/>
                     </Tab>
                     <Tab eventKey="new_meeting" title="New Meeting">
                         <NewMeeting/>

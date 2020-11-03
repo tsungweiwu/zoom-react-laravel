@@ -26,7 +26,48 @@ Route::get('/test', function () {
 // Zoom Accessing Models
 Route::get('/user', function() {
     $user = Zoom::user()->find("btricp@gmail.com");
+    $meetings = $user->meetings;
 
-    return $user->meetings;
+    $dt = new DateTime();
 
+    $newMeetings = array();
+
+    foreach ($meetings as $meeting) {
+        if ($meeting->start_time->getTimestamp() + ($meeting->duration * 60) >= $dt->getTimestamp()) {
+            array_push($newMeetings, [
+            'id' => $meeting->id,
+            'topic' => $meeting->topic,
+            'start_time' => $meeting->start_time,
+            'duration' => $meeting->duration,
+            'join_url' => $meeting->join_url,
+            'requester' => $meeting->agenda
+            ]);
+        }
+    }
+    return $newMeetings;
+});
+
+Route::post('create', function (Request $request) {
+    $random = str_shuffle('abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890!$%^&!$%^&');
+    $password = substr($random, 0, 10);
+
+    $user = Zoom::user()->find("btricp@gmail.com");
+    $meeting = Zoom::meeting()->make([
+        'topic' => $request->topic,
+        'start_time' => $request->dateTime,
+        'duration' => $request->duration*60,
+        'type' => 2,
+        'agenda' => $request->requester,
+        'password' => $password
+    ]);
+
+    return $user->meetings()->save($meeting);
+});
+
+Route::post('delete', function (Request $request) {
+    $user = Zoom::user()->find("btricp@gmail.com");
+
+    $meeting = $user->meetings()->find($request->id);
+
+    return $meeting->delete();
 });
