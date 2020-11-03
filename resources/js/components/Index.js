@@ -8,6 +8,7 @@ import NewMeeting from "./NewMeeting";
 import Form from 'react-bootstrap/Form'
 import {Alert, Button, Col, Image, Row} from "react-bootstrap";
 import logo from '../../../public/images/BTR-11.png';
+import PastMeeting from "./PastMeeting";
 
 class Index extends Component {
     constructor(props) {
@@ -15,6 +16,7 @@ class Index extends Component {
 
         this.state = {
             meetings: {},
+            pastMeetings: {},
             passcode: "",
             requester: "",
             login: false,
@@ -38,11 +40,22 @@ class Index extends Component {
             })
         }
 
-        fetch('/api/user')
+        fetch('/api/meeting')
             .then(response => response.json())
             .then(response => {
                 this.setState({
                     meetings: response
+                })
+            })
+            .catch(function (err) {
+                return err;
+            })
+
+        fetch('/api/pastMeeting')
+            .then(response => response.json())
+            .then(response => {
+                this.setState({
+                    pastMeetings: response
                 })
             })
             .catch(function (err) {
@@ -112,7 +125,7 @@ class Index extends Component {
                         </div>
                         <Form style={{paddingBottom: '4%'}}>
                             <Form.Group as={Form.Row} controlId="validationCustom03">
-                                <Form.Label column sm={1}>First & Last Name</Form.Label>
+                                <Form.Label column sm={1}>Name</Form.Label>
                                 <Col sm={5}>
                                 <Form.Control
                                     required
@@ -120,6 +133,7 @@ class Index extends Component {
                                     className="mx-sm-3"
                                     onChange={handleChangeName}
                                     isInvalid={this.state.errorName}
+                                    placeholder="Enter your full name"
                                 />
                                 <Form.Control.Feedback type="invalid">
                                     Please enter your first and last name
@@ -136,6 +150,7 @@ class Index extends Component {
                                     className="mx-sm-3"
                                     onChange={handleChangePass}
                                     isInvalid={this.state.errorPass}
+                                    placeholder="********"
                                 />
                                 <Form.Control.Feedback type="invalid">
                                     Please enter your password
@@ -161,11 +176,14 @@ class Index extends Component {
                     <>
                         <Button variant="outline-primary" style={{float:'right'}} onClick={handleLogOut}>Log Out</Button>
                         <Tabs defaultActiveKey="meetings">
-                            <Tab eventKey="meetings" title="Meetings">
+                            <Tab eventKey="meetings" title="Upcoming Meetings">
                                 <Meetings meetings={this.state.meetings} role={this.state.role}/>
                             </Tab>
                             <Tab eventKey="new_meeting" title="New Meeting">
                                 <NewMeeting/>
+                            </Tab>
+                            <Tab eventKey="past_meetings" title="Past Meetings">
+                                <PastMeeting meetings={this.state.pastMeetings} role={this.state.role}/>
                             </Tab>
                         </Tabs>
                     </>

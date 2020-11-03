@@ -18,11 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// get API here and receive it from react js
-Route::get('/test', function () {
-    return ['Edison Wu'];
-});
-
 Route::post('login', function (Request $request) {
     if ($request->passcode == '7818632617') {
         return ['login'=>true, 'role'=>'user', 'requester'=>$request->requester, 'success'=>true];
@@ -35,8 +30,8 @@ Route::post('login', function (Request $request) {
     }
 });
 
-// Zoom Accessing Models
-Route::get('/user', function() {
+// Retrieve Upcoming meetings
+Route::get('/meeting', function() {
     $user = Zoom::user()->find("btricp@gmail.com");
     $meetings = $user->meetings;
 
@@ -59,6 +54,32 @@ Route::get('/user', function() {
     return $newMeetings;
 });
 
+// Retrieve Past meetings
+Route::get('/pastMeeting', function() {
+    $user = Zoom::user()->find("btricp@gmail.com");
+    $meetings = $user->meetings;
+
+    $dt = new DateTime();
+
+    $newMeetings = array();
+
+    foreach ($meetings as $meeting) {
+        if ($meeting->start_time->getTimestamp() + ($meeting->duration * 60) + 604800 >= $dt->getTimestamp()) {
+            array_push($newMeetings, [
+            'id' => $meeting->id,
+            'topic' => $meeting->topic,
+            'start_time' => $meeting->start_time,
+            'duration' => $meeting->duration,
+            'join_url' => $meeting->join_url,
+            'requester' => $meeting->agenda
+            ]);
+        }
+    }
+
+    return array_reverse($newMeetings);
+});
+
+// Create new zoom meetings
 Route::post('create', function (Request $request) {
     $random = str_shuffle('abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890!$%^&!$%^&');
     $password = substr($random, 0, 10);
@@ -76,6 +97,7 @@ Route::post('create', function (Request $request) {
     return $user->meetings()->save($meeting);
 });
 
+// Delete zoom meetings
 Route::post('delete', function (Request $request) {
     $user = Zoom::user()->find("btricp@gmail.com");
 

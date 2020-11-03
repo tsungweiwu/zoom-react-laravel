@@ -38,7 +38,7 @@ class NewMeeting extends Component {
             let parseData = JSON.parse(data);
             this.setState({
                 showSubmit: true,
-                requester: parseData.requester
+                requester: ('Meeting created by ' + parseData.requester)
             })
         }
 

@@ -115300,6 +115300,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/index.js");
 /* harmony import */ var _public_images_BTR_11_png__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../public/images/BTR-11.png */ "./public/images/BTR-11.png");
 /* harmony import */ var _public_images_BTR_11_png__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_public_images_BTR_11_png__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _PastMeeting__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./PastMeeting */ "./resources/js/components/PastMeeting.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -115333,6 +115334,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var Index = /*#__PURE__*/function (_Component) {
   _inherits(Index, _Component);
 
@@ -115346,6 +115348,7 @@ var Index = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
     _this.state = {
       meetings: {},
+      pastMeetings: {},
       passcode: "",
       requester: "",
       login: false,
@@ -115375,11 +115378,20 @@ var Index = /*#__PURE__*/function (_Component) {
         });
       }
 
-      fetch('/api/user').then(function (response) {
+      fetch('/api/meeting').then(function (response) {
         return response.json();
       }).then(function (response) {
         _this2.setState({
           meetings: response
+        });
+      })["catch"](function (err) {
+        return err;
+      });
+      fetch('/api/pastMeeting').then(function (response) {
+        return response.json();
+      }).then(function (response) {
+        _this2.setState({
+          pastMeetings: response
         });
       })["catch"](function (err) {
         return err;
@@ -115458,14 +115470,15 @@ var Index = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Label, {
         column: true,
         sm: 1
-      }, "First & Last Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Col"], {
+      }, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Col"], {
         sm: 5
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Control, {
         required: true,
         type: "text",
         className: "mx-sm-3",
         onChange: handleChangeName,
-        isInvalid: this.state.errorName
+        isInvalid: this.state.errorName,
+        placeholder: "Enter your full name"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Control.Feedback, {
         type: "invalid"
       }, "Please enter your first and last name"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Group, {
@@ -115480,7 +115493,8 @@ var Index = /*#__PURE__*/function (_Component) {
         type: "password",
         className: "mx-sm-3",
         onChange: handleChangePass,
-        isInvalid: this.state.errorPass
+        isInvalid: this.state.errorPass,
+        placeholder: "********"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Control.Feedback, {
         type: "invalid"
       }, "Please enter your password"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Button"], {
@@ -115511,14 +115525,20 @@ var Index = /*#__PURE__*/function (_Component) {
         defaultActiveKey: "meetings"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Tab__WEBPACK_IMPORTED_MODULE_4__["default"], {
         eventKey: "meetings",
-        title: "Meetings"
+        title: "Upcoming Meetings"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Meetings__WEBPACK_IMPORTED_MODULE_5__["default"], {
         meetings: this.state.meetings,
         role: this.state.role
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Tab__WEBPACK_IMPORTED_MODULE_4__["default"], {
         eventKey: "new_meeting",
         title: "New Meeting"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NewMeeting__WEBPACK_IMPORTED_MODULE_6__["default"], null)))));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NewMeeting__WEBPACK_IMPORTED_MODULE_6__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Tab__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        eventKey: "past_meetings",
+        title: "Past Meetings"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_PastMeeting__WEBPACK_IMPORTED_MODULE_10__["default"], {
+        meetings: this.state.pastMeetings,
+        role: this.state.role
+      })))));
     }
   }]);
 
@@ -115654,7 +115674,7 @@ var Meetings = /*#__PURE__*/function (_Component) {
           onClick: handleDelete
         }, "Delete")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Subtitle, {
           className: "mb-2 text-muted"
-        }, getDate(meeting.start_time)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Text, null, "Duration: ", meeting.duration / 60, " Hours"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Text, null, "Created By: ", meeting.requester), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Link, {
+        }, getDate(meeting.start_time)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Text, null, "Duration: ", meeting.duration / 60, " Hours"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Text, null, "Description: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, meeting.requester)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Link, {
           href: meeting.join_url,
           target: "_blank"
         }, meeting.join_url))));
@@ -115768,7 +115788,7 @@ var NewMeeting = /*#__PURE__*/function (_Component) {
 
         _this2.setState({
           showSubmit: true,
-          requester: parseData.requester
+          requester: 'Meeting created by ' + parseData.requester
         });
       };
 
@@ -115887,6 +115907,140 @@ var NewMeeting = /*#__PURE__*/function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (NewMeeting);
+
+/***/ }),
+
+/***/ "./resources/js/components/PastMeeting.js":
+/*!************************************************!*\
+  !*** ./resources/js/components/PastMeeting.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-bootstrap/Card */ "./node_modules/react-bootstrap/esm/Card.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/index.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+function getDate(start_time) {
+  var date = new Date(start_time);
+  var str = date.toDateString() + " | " + date.toLocaleTimeString();
+  return str;
+}
+
+var PastMeetings = /*#__PURE__*/function (_Component) {
+  _inherits(PastMeetings, _Component);
+
+  var _super = _createSuper(PastMeetings);
+
+  function PastMeetings() {
+    var _this;
+
+    _classCallCheck(this, PastMeetings);
+
+    _this = _super.call(this);
+    _this.state = {
+      showDelete: false,
+      id: ''
+    };
+    return _this;
+  }
+
+  _createClass(PastMeetings, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var handleOpen = function handleOpen(id) {
+        _this2.setState({
+          id: id,
+          showDelete: true
+        });
+      };
+
+      var handleClose = function handleClose() {
+        _this2.setState({
+          id: '',
+          showDelete: false
+        });
+      };
+
+      var handleDelete = function handleDelete() {
+        fetch('/api/delete', {
+          method: 'POST',
+          credentials: 'same-origin',
+          body: JSON.stringify(_this2.state),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        }).then(function (response) {
+          response.json().then(function (resp) {
+            console.log(resp);
+            window.location.reload(false);
+          });
+        })["catch"]();
+      };
+
+      var meetings = this.props && this.props.meetings.length > 0 ? this.props.meetings.map(function (meeting) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "meeting-card"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Title, null, meeting.topic, _this2.props.role == 'admin' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+          onClick: function onClick() {
+            return handleOpen(meeting.id);
+          },
+          className: "buttonDelete",
+          variant: "danger"
+        }, "X") : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Modal"], {
+          show: _this2.state.showDelete,
+          onHide: handleClose
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Modal"].Header, {
+          closeButton: true
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Modal"].Title, null, "Confirm Delete")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Modal"].Body, null, "You're about delete a Zoom meeting. Are you sure?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Modal"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+          variant: "secondary",
+          onClick: handleClose
+        }, "Cancel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+          variant: "primary",
+          onClick: handleDelete
+        }, "Delete")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Subtitle, {
+          className: "mb-2 text-muted"
+        }, getDate(meeting.start_time)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Text, null, "Duration: ", meeting.duration / 60, " Hours"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Text, null, "Description: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, meeting.requester)))));
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, meetings);
+    }
+  }]);
+
+  return PastMeetings;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (PastMeetings);
 
 /***/ }),
 

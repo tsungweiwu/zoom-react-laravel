@@ -8,7 +8,7 @@ function getDate(start_time) {
     return str;
 }
 
-class Meetings extends Component {
+class PastMeetings extends Component {
     constructor() {
         super();
         this.state = {
@@ -84,13 +84,12 @@ class Meetings extends Component {
                             <Card.Text>
                                 Description: <p>{meeting.requester}</p>
                             </Card.Text>
-                            <Card.Link href={meeting.join_url} target="_blank">{meeting.join_url}</Card.Link>
                         </Card.Body>
                     </Card>
                 </div>
             ) : <div></div>;
 
-            return(
+        return(
             <div>
                 {meetings}
             </div>
@@ -98,4 +97,4 @@ class Meetings extends Component {
     }
 }
 
-export default Meetings;
+export default PastMeetings;
