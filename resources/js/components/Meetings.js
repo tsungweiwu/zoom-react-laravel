@@ -59,7 +59,9 @@ class Meetings extends Component {
                     <Card>
                         <Card.Body>
                             <Card.Title>{meeting.topic}
-                            <Button onClick={() => handleOpen(meeting.id)} className="buttonDelete" variant="danger">X</Button>
+                                {this.props.role == 'admin' ? (
+                                    <Button onClick={() => handleOpen(meeting.id)} className="buttonDelete" variant="danger">X</Button>
+                                ) : ''}
                                 <Modal show={this.state.showDelete} onHide={handleClose}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Confirm Delete</Modal.Title>

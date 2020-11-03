@@ -115285,6 +115285,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_bootstrap_Tab__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-bootstrap/Tab */ "./node_modules/react-bootstrap/esm/Tab.js");
 /* harmony import */ var _Meetings__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Meetings */ "./resources/js/components/Meetings.js");
 /* harmony import */ var _NewMeeting__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./NewMeeting */ "./resources/js/components/NewMeeting.js");
+/* harmony import */ var react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-bootstrap/Form */ "./node_modules/react-bootstrap/esm/Form.js");
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/index.js");
+/* harmony import */ var react_bootstrap_Image__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-bootstrap/Image */ "./node_modules/react-bootstrap/esm/Image.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -115315,6 +115318,9 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
+
 var Index = /*#__PURE__*/function (_Component) {
   _inherits(Index, _Component);
 
@@ -115327,7 +115333,12 @@ var Index = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      meetings: {}
+      meetings: {},
+      passcode: "",
+      login: false,
+      userInput: '',
+      showWarning: false,
+      role: ''
     };
     return _this;
   } // fetch api
@@ -115351,15 +115362,88 @@ var Index = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this3 = this;
+
+      var handleSubmit = function handleSubmit() {
+        console.log(_this3.state.userInput);
+
+        if (_this3.state.userInput == "") {
+          _this3.setState({
+            showWarning: true,
+            showError: false
+          });
+        } else if (_this3.state.userInput == "7818632617") {
+          _this3.setState({
+            login: true,
+            role: 'user'
+          });
+        } else if (_this3.state.userInput == "steve1201") {
+          _this3.setState({
+            login: true,
+            role: 'admin'
+          });
+        } else {
+          _this3.setState({
+            showError: true,
+            showWarning: false
+          });
+        }
+      };
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Container__WEBPACK_IMPORTED_MODULE_2__["default"], {
         className: "App mt-5"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Tabs__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }, !this.state.login ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        style: {
+          paddingBottom: '4%'
+        }
+      }, "Zoom Meeting Dashboard"), this.state.showWarning ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Alert"], {
+        variant: "warning",
+        onClose: function onClose() {
+          _this3.setState({
+            showWarning: false
+          });
+        },
+        dismissible: true
+      }, "You need to fill the empty fields in order to continue submission.") : '', this.state.showError ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Alert"], {
+        variant: "danger",
+        onClose: function onClose() {
+          _this3.setState({
+            showError: false
+          });
+        },
+        dismissible: true
+      }, "Wrong Password! Try again.") : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        inline: true,
+        style: {
+          justifyContent: 'center',
+          alignItems: 'center',
+          display: 'flex'
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Group, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Label, {
+        htmlFor: "inputPassword6"
+      }, "Password"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Control, {
+        type: "password",
+        className: "mx-sm-3",
+        onChange: function onChange(input) {
+          _this3.setState({
+            userInput: input.target.value
+          });
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Button"], {
+        variant: "outline-primary",
+        style: {
+          width: '75%',
+          marginTop: '12%'
+        },
+        onClick: handleSubmit
+      }, "Login")))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Tabs__WEBPACK_IMPORTED_MODULE_3__["default"], {
         defaultActiveKey: "meetings"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Tab__WEBPACK_IMPORTED_MODULE_4__["default"], {
         eventKey: "meetings",
         title: "Meetings"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Meetings__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        meetings: this.state.meetings
+        meetings: this.state.meetings,
+        role: this.state.role
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Tab__WEBPACK_IMPORTED_MODULE_4__["default"], {
         eventKey: "new_meeting",
         title: "New Meeting"
@@ -115480,13 +115564,13 @@ var Meetings = /*#__PURE__*/function (_Component) {
       var meetings = this.props && this.props.meetings.length > 0 ? this.props.meetings.map(function (meeting) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "meeting-card"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Title, null, meeting.topic, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Title, null, meeting.topic, _this2.props.role == 'admin' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
           onClick: function onClick() {
             return handleOpen(meeting.id);
           },
           className: "buttonDelete",
           variant: "danger"
-        }, "X"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Modal"], {
+        }, "X") : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Modal"], {
           show: _this2.state.showDelete,
           onHide: handleClose
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Modal"].Header, {
