@@ -3,7 +3,11 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Laravel</title>
+        <title>Zoom Meeting Dashboard</title>
+
+        <!-- add icon link -->
+        <link rel="icon" href="{{asset('images/BTR-11.png')}}" type="image/png">
+
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     </head>

@@ -10913,3 +10913,12 @@ a.text-dark:focus {
   float: right;
 }
 
+.logo {
+  height: 6em;
+  width: 6em;
+}
+
+.row {
+  display: flex;
+}
+

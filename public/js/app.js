@@ -115198,6 +115198,17 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./public/images/BTR-11.png":
+/*!**********************************!*\
+  !*** ./public/images/BTR-11.png ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/images/BTR-11.png?967989a40dd84ecf6777eaf43c3da617";
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -115287,6 +115298,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _NewMeeting__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./NewMeeting */ "./resources/js/components/NewMeeting.js");
 /* harmony import */ var react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-bootstrap/Form */ "./node_modules/react-bootstrap/esm/Form.js");
 /* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/index.js");
+/* harmony import */ var _public_images_BTR_11_png__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../public/images/BTR-11.png */ "./public/images/BTR-11.png");
+/* harmony import */ var _public_images_BTR_11_png__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_public_images_BTR_11_png__WEBPACK_IMPORTED_MODULE_9__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -115308,6 +115321,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -115423,11 +115437,18 @@ var Index = /*#__PURE__*/function (_Component) {
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Container__WEBPACK_IMPORTED_MODULE_2__["default"], {
         className: "App mt-5"
-      }, !this.state.login ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+      }, !this.state.login ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "d-flex flex-row",
         style: {
-          paddingBottom: '4%'
+          paddingBottom: '3%'
         }
-      }, "Zoom Meeting Dashboard"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Image"], {
+        className: "logo p-2",
+        src: _public_images_BTR_11_png__WEBPACK_IMPORTED_MODULE_9___default.a,
+        rounded: true
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "align-self-center p-2"
+      }, "Zoom Meeting Dashboard")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"], {
         style: {
           paddingBottom: '4%'
         }
@@ -115723,7 +115744,8 @@ var NewMeeting = /*#__PURE__*/function (_Component) {
       duration: 0,
       requester: '',
       showSubmit: false,
-      showWarning: false
+      showWarning: false,
+      errorTopic: false
     };
     return _this;
   }
@@ -115756,6 +115778,13 @@ var NewMeeting = /*#__PURE__*/function (_Component) {
         });
       };
 
+      var handleChangeTopic = function handleChangeTopic(e) {
+        _this2.setState({
+          topic: e.target.value,
+          errorTopic: e.target.value == ""
+        });
+      };
+
       var handleSubmit = function handleSubmit(e) {
         e.preventDefault();
         fetch('/api/create', {
@@ -115784,7 +115813,7 @@ var NewMeeting = /*#__PURE__*/function (_Component) {
           });
         },
         dismissible: true
-      }, "**ALERT**  You need to fill the empty fields in order to continue submission.") : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Group, {
+      }, "You need to fill the empty fields in order to continue submission.") : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Group, {
         as: react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Row,
         controlId: "formTopic"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Label, {
@@ -115794,13 +115823,12 @@ var NewMeeting = /*#__PURE__*/function (_Component) {
         sm: 10
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Control, {
         required: true,
-        onChange: function onChange(input) {
-          _this2.setState({
-            topic: input.target.value
-          });
-        },
-        placeholder: "Ex. Boston Meeting"
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Group, {
+        onChange: handleChangeTopic,
+        placeholder: "Ex. Boston Meeting",
+        isInvalid: this.state.errorTopic
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Control.Feedback, {
+        type: "invalid"
+      }, "Please enter the topic"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Group, {
         as: react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Row,
         controlId: "formDateandTime"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Label, {

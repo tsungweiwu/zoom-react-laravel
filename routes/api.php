@@ -27,7 +27,7 @@ Route::post('login', function (Request $request) {
     if ($request->passcode == '7818632617') {
         return ['login'=>true, 'role'=>'user', 'requester'=>$request->requester, 'success'=>true];
     }
-    else if ($request->passcode == '1234') {
+    else if ($request->passcode == 'steve1201') {
         return ['login'=>true, 'role'=>'admin', 'requester'=>$request->requester, 'success'=>true];
     }
     else {

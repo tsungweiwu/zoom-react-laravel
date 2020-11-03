@@ -21,6 +21,7 @@ class NewMeeting extends Component {
             requester: '',
             showSubmit: false,
             showWarning: false,
+            errorTopic: false,
         }
     }
 
@@ -44,6 +45,13 @@ class NewMeeting extends Component {
         const handleWarning = () => {
             this.setState({
                 showWarning: true
+            })
+        }
+
+        const handleChangeTopic = e => {
+            this.setState({
+                topic: e.target.value,
+                errorTopic: (e.target.value == "")
             })
         }
 
@@ -73,7 +81,7 @@ class NewMeeting extends Component {
             <Form className="initial-content">
                 {this.state.showWarning ? (
                     <Alert variant="danger" onClose={() => {this.setState({showWarning: false})}} dismissible>
-                        **ALERT**  You need to fill the empty fields in order to continue submission.
+                        You need to fill the empty fields in order to continue submission.
                     </Alert>
                 ) : ''}
 
@@ -81,13 +89,10 @@ class NewMeeting extends Component {
                 <Form.Group as={Form.Row} controlId="formTopic">
                     <Form.Label column sm={2}>Topic</Form.Label>
                     <Col sm={10}>
-                        <Form.Control required onChange={(input) =>
-                        {
-                            this.setState({
-                                topic: input.target.value
-                            })
-                        }
-                        } placeholder="Ex. Boston Meeting"/>
+                        <Form.Control required onChange={handleChangeTopic} placeholder="Ex. Boston Meeting" isInvalid={this.state.errorTopic}/>
+                        <Form.Control.Feedback type="invalid">
+                            Please enter the topic
+                        </Form.Control.Feedback>
                     </Col>
                 </Form.Group>
 

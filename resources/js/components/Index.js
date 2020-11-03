@@ -6,7 +6,8 @@ import Tab from 'react-bootstrap/Tab'
 import Meetings from "./Meetings";
 import NewMeeting from "./NewMeeting";
 import Form from 'react-bootstrap/Form'
-import {Alert, Button, Col} from "react-bootstrap";
+import {Alert, Button, Col, Image, Row} from "react-bootstrap";
+import logo from '../../../public/images/BTR-11.png';
 
 class Index extends Component {
     constructor(props) {
@@ -105,7 +106,10 @@ class Index extends Component {
             <Container className="App mt-5">
                 {!this.state.login ? (
                     <div>
-                        <h1 style={{paddingBottom: '4%'}}>Zoom Meeting Dashboard</h1>
+                        <div className="d-flex flex-row" style={{paddingBottom: '3%'}}>
+                            <Image className="logo p-2" src={logo} rounded></Image>
+                            <h1 className="align-self-center p-2">Zoom Meeting Dashboard</h1>
+                        </div>
                         <Form style={{paddingBottom: '4%'}}>
                             <Form.Group as={Form.Row} controlId="validationCustom03">
                                 <Form.Label column sm={1}>First & Last Name</Form.Label>
