@@ -121,7 +121,7 @@ class Index extends Component {
                     <div>
                         <div className="d-flex flex-row" style={{paddingBottom: '3%'}}>
                             <Image className="logo p-2" src={logo} rounded></Image>
-                            <h1 className="align-self-center p-2">Zoom Meeting Dashboard</h1>
+                            <h1 className="align-self-center p-2">Zoom Dashboard</h1>
                         </div>
                         <Form style={{paddingBottom: '4%'}}>
                             <Form.Group as={Form.Row} controlId="validationCustom03">

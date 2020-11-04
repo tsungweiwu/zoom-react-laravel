@@ -115460,7 +115460,7 @@ var Index = /*#__PURE__*/function (_Component) {
         rounded: true
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "align-self-center p-2"
-      }, "Zoom Meeting Dashboard")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      }, "Zoom Dashboard")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"], {
         style: {
           paddingBottom: '4%'
         }
