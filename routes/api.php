@@ -38,19 +38,31 @@ Route::get('/meeting', function() {
     $dt = new DateTime();
 
     $newMeetings = array();
-
+    
     foreach ($meetings as $meeting) {
-        if ($meeting->start_time->getTimestamp() + ($meeting->duration * 60) >= $dt->getTimestamp()) {
+        if(is_null($meeting->start_time)) {
             array_push($newMeetings, [
-            'id' => $meeting->id,
-            'topic' => $meeting->topic,
-            'start_time' => $meeting->start_time,
-            'duration' => $meeting->duration,
-            'join_url' => $meeting->join_url,
-            'requester' => $meeting->agenda
-            ]);
+                'id' => $meeting->id,
+                'topic' => $meeting->topic,
+                'duration' => $meeting->duration,
+                'join_url' => $meeting->join_url,
+                'requester' => $meeting->agenda
+                ]);
+        }
+        else {
+            if ($meeting->start_time->getTimestamp() + ($meeting->duration * 60) >= $dt->getTimestamp()) {
+                array_push($newMeetings, [
+                'id' => $meeting->id,
+                'topic' => $meeting->topic,
+                'start_time' => $meeting->start_time,
+                'duration' => $meeting->duration,
+                'join_url' => $meeting->join_url,
+                'requester' => $meeting->agenda
+                ]);
+            }
         }
     }
+    
     return $newMeetings;
 });
 
@@ -64,15 +76,26 @@ Route::get('/pastMeeting', function() {
     $newMeetings = array();
 
     foreach ($meetings as $meeting) {
-        if ($meeting->start_time->getTimestamp() + ($meeting->duration * 60) + 604800 >= $dt->getTimestamp()) {
+        if(is_null($meeting->start_time)) {
             array_push($newMeetings, [
-            'id' => $meeting->id,
-            'topic' => $meeting->topic,
-            'start_time' => $meeting->start_time,
-            'duration' => $meeting->duration,
-            'join_url' => $meeting->join_url,
-            'requester' => $meeting->agenda
-            ]);
+                'id' => $meeting->id,
+                'topic' => $meeting->topic,
+                'duration' => $meeting->duration,
+                'join_url' => $meeting->join_url,
+                'requester' => $meeting->agenda
+                ]);
+        }
+        else {
+            if ($meeting->start_time->getTimestamp() + ($meeting->duration * 60) + 604800 >= $dt->getTimestamp()) {
+                array_push($newMeetings, [
+                'id' => $meeting->id,
+                'topic' => $meeting->topic,
+                'start_time' => $meeting->start_time,
+                'duration' => $meeting->duration,
+                'join_url' => $meeting->join_url,
+                'requester' => $meeting->agenda
+                ]);
+            }
         }
     }
 

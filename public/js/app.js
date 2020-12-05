@@ -115352,10 +115352,10 @@ var Index = /*#__PURE__*/function (_Component) {
       passcode: "",
       requester: "",
       login: false,
-      userInput: '',
+      userInput: "",
       errorName: false,
       errorPass: false,
-      role: '',
+      role: "",
       success: null
     };
     return _this;
@@ -115367,7 +115367,7 @@ var Index = /*#__PURE__*/function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      var data = sessionStorage.getItem('userData');
+      var data = sessionStorage.getItem("userData");
       data = JSON.parse(data);
 
       if (!(data == null)) {
@@ -115378,7 +115378,7 @@ var Index = /*#__PURE__*/function (_Component) {
         });
       }
 
-      fetch('/api/meeting').then(function (response) {
+      fetch("/api/meeting").then(function (response) {
         return response.json();
       }).then(function (response) {
         _this2.setState({
@@ -115387,7 +115387,7 @@ var Index = /*#__PURE__*/function (_Component) {
       })["catch"](function (err) {
         return err;
       });
-      fetch('/api/pastMeeting').then(function (response) {
+      fetch("/api/pastMeeting").then(function (response) {
         return response.json();
       }).then(function (response) {
         _this2.setState({
@@ -115418,21 +115418,21 @@ var Index = /*#__PURE__*/function (_Component) {
 
       var handleSubmit = function handleSubmit(e) {
         e.preventDefault();
-        fetch('/api/login', {
-          method: 'POST',
-          credentials: 'same-origin',
+        fetch("/api/login", {
+          method: "POST",
+          credentials: "same-origin",
           body: JSON.stringify(_this3.state),
           headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            Accept: "application/json",
+            "Content-Type": "application/json"
           }
         }).then(function (response) {
           response.json().then(function (resp) {
             console.log(resp);
-            sessionStorage.setItem('userData', JSON.stringify(resp));
+            sessionStorage.setItem("userData", JSON.stringify(resp));
 
             if (!resp.success) {
-              localStorage.setItem('success', 'false');
+              localStorage.setItem("success", "false");
             } else {
               localStorage.clear();
             }
@@ -115452,7 +115452,7 @@ var Index = /*#__PURE__*/function (_Component) {
       }, !this.state.login ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "d-flex flex-row",
         style: {
-          paddingBottom: '3%'
+          paddingBottom: "3%"
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Image"], {
         className: "logo p-2",
@@ -115462,7 +115462,7 @@ var Index = /*#__PURE__*/function (_Component) {
         className: "align-self-center p-2"
       }, "Zoom Dashboard")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"], {
         style: {
-          paddingBottom: '4%'
+          paddingBottom: "4%"
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Group, {
         as: react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_7__["default"].Row,
@@ -115500,25 +115500,25 @@ var Index = /*#__PURE__*/function (_Component) {
       }, "Please enter your password"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Button"], {
         variant: "outline-primary",
         style: {
-          width: '50%',
-          marginTop: '5%'
+          width: "50%",
+          marginTop: "5%"
         },
         onClick: this.state.requester == "" || this.state.passcode == "" ? null : handleSubmit,
         type: "submit"
-      }, "Login")), localStorage.getItem('success') == 'false' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Alert"], {
+      }, "Login")), localStorage.getItem("success") == "false" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Alert"], {
         variant: "danger",
         onClose: function onClose() {
           _this3.setState({
             showError: false
           });
 
-          localStorage.setItem('success', 'true');
+          localStorage.setItem("success", "true");
         },
         dismissible: true
-      }, "Wrong Password! Try again.") : '') : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Button"], {
+      }, "Wrong Password! Try again.") : "") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["Button"], {
         variant: "outline-primary",
         style: {
-          "float": 'right'
+          "float": "right"
         },
         onClick: handleLogOut
       }, "Log Out"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Tabs__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -115547,8 +115547,8 @@ var Index = /*#__PURE__*/function (_Component) {
 
 /* harmony default export */ __webpack_exports__["default"] = (Index);
 
-if (document.getElementById('index')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Index, null), document.getElementById('index'));
+if (document.getElementById("index")) {
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Index, null), document.getElementById("index"));
 }
 
 /***/ }),
@@ -115611,7 +115611,7 @@ var Meetings = /*#__PURE__*/function (_Component) {
     _this = _super.call(this);
     _this.state = {
       showDelete: false,
-      id: ''
+      id: ""
     };
     return _this;
   }
@@ -115630,19 +115630,19 @@ var Meetings = /*#__PURE__*/function (_Component) {
 
       var handleClose = function handleClose() {
         _this2.setState({
-          id: '',
+          id: "",
           showDelete: false
         });
       };
 
       var handleDelete = function handleDelete() {
-        fetch('/api/delete', {
-          method: 'POST',
-          credentials: 'same-origin',
+        fetch("/api/delete", {
+          method: "POST",
+          credentials: "same-origin",
           body: JSON.stringify(_this2.state),
           headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            Accept: "application/json",
+            "Content-Type": "application/json"
           }
         }).then(function (response) {
           response.json().then(function (resp) {
@@ -115655,13 +115655,13 @@ var Meetings = /*#__PURE__*/function (_Component) {
       var meetings = this.props && this.props.meetings.length > 0 ? this.props.meetings.map(function (meeting) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "meeting-card"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Title, null, meeting.topic, _this2.props.role == 'admin' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Title, null, meeting.topic, _this2.props.role == "admin" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
           onClick: function onClick() {
             return handleOpen(meeting.id);
           },
           className: "buttonDelete",
           variant: "danger"
-        }, "X") : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Modal"], {
+        }, "X") : "", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Modal"], {
           show: _this2.state.showDelete,
           onHide: handleClose
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Modal"].Header, {
@@ -115672,9 +115672,9 @@ var Meetings = /*#__PURE__*/function (_Component) {
         }, "Cancel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
           variant: "primary",
           onClick: handleDelete
-        }, "Delete")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Subtitle, {
+        }, "Delete")))), meeting.start_time && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Subtitle, {
           className: "mb-2 text-muted"
-        }, getDate(meeting.start_time)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Text, null, "Duration: ", meeting.duration / 60, " Hours"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Text, null, "Description: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, meeting.requester)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Link, {
+        }, getDate(meeting.start_time)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Text, null, "Duration: ", meeting.duration / 60, " ", "Hours")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Text, null, "Description: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, meeting.requester)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Link, {
           href: meeting.join_url,
           target: "_blank"
         }, meeting.join_url))));
@@ -115968,7 +115968,7 @@ var PastMeetings = /*#__PURE__*/function (_Component) {
     _this = _super.call(this);
     _this.state = {
       showDelete: false,
-      id: ''
+      id: ""
     };
     return _this;
   }
@@ -115987,19 +115987,19 @@ var PastMeetings = /*#__PURE__*/function (_Component) {
 
       var handleClose = function handleClose() {
         _this2.setState({
-          id: '',
+          id: "",
           showDelete: false
         });
       };
 
       var handleDelete = function handleDelete() {
-        fetch('/api/delete', {
-          method: 'POST',
-          credentials: 'same-origin',
+        fetch("/api/delete", {
+          method: "POST",
+          credentials: "same-origin",
           body: JSON.stringify(_this2.state),
           headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            Accept: "application/json",
+            "Content-Type": "application/json"
           }
         }).then(function (response) {
           response.json().then(function (resp) {
@@ -116010,15 +116010,15 @@ var PastMeetings = /*#__PURE__*/function (_Component) {
       };
 
       var meetings = this.props && this.props.meetings.length > 0 ? this.props.meetings.map(function (meeting) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        return meeting.start_time && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "meeting-card"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Title, null, meeting.topic, _this2.props.role == 'admin' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Title, null, meeting.topic, _this2.props.role == "admin" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Button"], {
           onClick: function onClick() {
             return handleOpen(meeting.id);
           },
           className: "buttonDelete",
           variant: "danger"
-        }, "X") : '', /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Modal"], {
+        }, "X") : "", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Modal"], {
           show: _this2.state.showDelete,
           onHide: handleClose
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Modal"].Header, {
@@ -116031,7 +116031,7 @@ var PastMeetings = /*#__PURE__*/function (_Component) {
           onClick: handleDelete
         }, "Delete")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Subtitle, {
           className: "mb-2 text-muted"
-        }, getDate(meeting.start_time)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Text, null, "Duration: ", meeting.duration / 60, " Hours"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Text, null, "Description: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, meeting.requester)))));
+        }, getDate(meeting.start_time)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Text, null, "Duration: ", meeting.duration / 60, " ", "Hours"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Card__WEBPACK_IMPORTED_MODULE_1__["default"].Text, null, "Description:", " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, meeting.requester)))));
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, meetings);
     }
